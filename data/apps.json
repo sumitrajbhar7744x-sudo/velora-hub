@@ -1,0 +1,43 @@
+[
+  {
+    "id": "b46e4322-7363-404c-903b-8fd51f74fbe4",
+    "name": "Zytor",
+    "developer": "Unknown",
+    "category": "Tools ",
+    "platform": "Android",
+    "description": "Zytor here you can download almost everything by link",
+    "shortDesc": "All in one downloader tool",
+    "version": "2.23.5",
+    "size": "69 MB",
+    "rating": 4.5,
+    "tags": [
+      "Tools"
+    ],
+    "icon": "/uploads/icons/1780649990635-94983.png",
+    "apkFile": "/uploads/apks/1780649991821-Zytor_1.1.0.apk",
+    "apkOriginalName": "Zytor_1.1.0.apk",
+    "downloads": 3,
+    "featured": true,
+    "reviews": [
+      {
+        "id": "50f60419-48e9-4b03-a027-05b6591132bc",
+        "userId": "2b44b468-ff38-4add-9b5d-64c424927053",
+        "userName": "Sumit Rajbhar ",
+        "avatar": "S",
+        "rating": 4,
+        "text": "",
+        "date": "2026-06-05T10:28:01.916Z"
+      },
+      {
+        "id": "24d054b5-cbb4-484c-bc07-17651a816edd",
+        "userId": "2b44b468-ff38-4add-9b5d-64c424927053",
+        "userName": "Sumit Rajbhar ",
+        "avatar": "S",
+        "rating": 5,
+        "text": "Best app",
+        "date": "2026-06-05T10:28:10.148Z"
+      }
+    ],
+    "createdAt": "2026-06-05T09:02:05.364Z"
+  }
+]

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VELORA HUB</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#3a7bd5">
+<style id="dynamicCSS">
+:root{--g:#3a7bd5;--gl:#e3f2fd;--bg:#f5f5f5;--w:#fff;--t1:#1f1f1f;--t2:#5f6368;--t3:#9aa0a6;--bd:#e0e0e0;--shadow:0 1px 3px rgba(0,0,0,.08)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t1);display:flex;flex-direction:column;min-height:100vh;transition:background .3s,color .3s}
+.maintenance-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:var(--w);z-index:99999;display:none;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:32px}
+.announcement-bar{background:var(--g);color:#fff;text-align:center;padding:8px 16px;font-size:13px;font-weight:600;display:none;cursor:pointer}
+.navbar{position:sticky;top:0;z-index:100;background:var(--w);height:64px;display:flex;align-items:center;padding:0 16px;box-shadow:var(--shadow);gap:12px}
+.logo-btn{cursor:pointer;display:flex;align-items:center;gap:10px}
+.logo-txt{font-size:20px;font-weight:700;color:var(--g);letter-spacing:-.5px}
+.search-box{flex:1;height:42px;background:var(--bg);border-radius:12px;display:flex;align-items:center;padding:0 16px;gap:8px;cursor:pointer;border:1px solid transparent}
+.search-box input{flex:1;border:none;background:none;font-size:14px;outline:none;font-family:inherit;color:var(--t1)}
+.nav-right{display:flex;gap:8px;align-items:center}
+.nav-btn{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--t2)}
+.user-chip{display:flex;align-items:center;gap:8px;background:var(--gl);padding:4px 12px 4px 4px;border-radius:20px;cursor:pointer;font-size:13px;font-weight:600;color:var(--g)}
+.user-avatar{width:32px;height:32px;border-radius:50%;background:var(--g);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700}
+.sidebar-bg{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:200;display:none}
+.sidebar-bg.open{display:block}
+.sidebar{position:fixed;top:0;left:-300px;width:280px;height:100vh;background:var(--w);z-index:201;transition:.3s;overflow-y:auto;display:flex;flex-direction:column}
+.sidebar.open{left:0}
+.sb-hdr{padding:20px;font-size:18px;font-weight:700;color:var(--g);border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:10px}
+.sb-item{display:flex;align-items:center;gap:12px;padding:14px 20px;cursor:pointer;color:var(--t2);font-size:15px;transition:.15s}
+.sb-item:hover,.sb-item.on{background:var(--gl);color:var(--g)}
+.sb-item .material-icons-round{font-size:20px}
+.sb-label{padding:12px 20px 4px;font-size:11px;font-weight:700;text-transform:uppercase;color:var(--t3);letter-spacing:1px}
+.sb-footer{margin-top:auto;padding:16px;border-top:1px solid var(--bd)}
+.main{padding:16px;max-width:1200px;margin:0 auto;flex:1;width:100%}
+.section{margin-bottom:32px}
+.sec-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.sec-t{font-size:18px;font-weight:700}
+.banner{border-radius:16px;overflow:hidden;height:180px;background:linear-gradient(135deg,var(--g),#00d2ff);color:#fff;cursor:pointer;margin-bottom:24px;padding:32px;display:flex;flex-direction:column;justify-content:center}
+.banner h2{font-size:26px;font-weight:700}
+.banner p{font-size:15px;opacity:.9;margin-top:8px}
+.app-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.app-card{background:var(--w);border-radius:16px;overflow:hidden;cursor:pointer;transition:.2s;border:1px solid var(--bd);position:relative}
+.app-card:hover{box-shadow:0 8px 24px rgba(0,0,0,.08);transform:translateY(-3px)}
+.app-card .card-img{height:140px;background:var(--bd);overflow:hidden}
+.app-card .card-img img{width:100%;height:100%;object-fit:cover}
+.app-card .card-body{padding:12px}
+.app-card .card-title{font-size:15px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.app-card .card-desc{font-size:12px;color:var(--t2);margin-top:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.app-card .card-foot{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-top:1px solid var(--bd)}
+.app-card .card-meta{font-size:11px;color:var(--t3);display:flex;gap:6px;align-items:center}
+.wish-btn{position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:5;border:none;box-shadow:0 2px 5px rgba(0,0,0,.1)}
+.wish-btn .material-icons-round{font-size:18px;color:var(--t3)}
+.wish-btn.active .material-icons-round{color:#ff1744}
+.dl-btn-sm{background:var(--g);color:#fff;border:none;border-radius:8px;padding:6px 16px;font-size:12px;font-weight:600;font-family:inherit;cursor:pointer}
+.hz-list{display:flex;flex-direction:column;gap:8px}
+.hz-item{display:flex;align-items:center;gap:12px;background:var(--w);padding:12px;border-radius:12px;border:1px solid var(--bd);cursor:pointer}
+.hz-item:hover{border-color:var(--g)}
+.hz-ic{width:50px;height:50px;border-radius:12px;overflow:hidden;flex-shrink:0;background:var(--bd)}
+.hz-ic img{width:100%;height:100%;object-fit:cover}
+.hz-nm{font-size:14px;font-weight:600;flex:1}
+.hz-mt{font-size:12px;color:var(--t3)}
+.detail{position:fixed;top:0;left:0;right:0;bottom:0;background:var(--bg);z-index:150;overflow-y:auto;transform:translateX(100%);transition:transform .3s}
+.detail.open{transform:translateX(0)}
+.det-hdr{background:var(--w);height:56px;display:flex;align-items:center;padding:0 8px;gap:8px;position:sticky;top:0;z-index:10;box-shadow:var(--shadow)}
+.det-back{width:40px;height:40px;display:flex;align-items:center;justify-content:center;cursor:pointer;border-radius:50%}
+.det-body{max-width:800px;margin:0 auto;padding:24px 16px}
+.det-hero{display:flex;gap:20px;align-items:flex-start;margin-bottom:24px}
+.det-icon{width:80px;height:80px;border-radius:20px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,.15);flex-shrink:0;background:var(--bd)}
+.det-icon img{width:100%;height:100%;object-fit:cover}
+.det-t{font-size:24px;font-weight:700;line-height:1.2}
+.det-dv{font-size:14px;color:var(--g);margin-top:4px}
+.det-meta{display:flex;gap:16px;margin-top:8px;font-size:13px;color:var(--t2);align-items:center}
+.det-meta .material-icons-round{font-size:16px;vertical-align:middle;margin-right:2px}
+.det-dl-btn{display:block;width:100%;padding:16px;background:var(--g);color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:700;font-family:inherit;cursor:pointer;margin:24px 0;text-align:center;text-decoration:none;transition:.15s}
+.det-dl-btn:hover{opacity:.9}
+.det-dl-btn.na{background:var(--bd);color:var(--t3);cursor:not-allowed}
+.det-box{background:var(--w);border-radius:16px;padding:20px;margin-bottom:16px;border:1px solid var(--bd)}
+.det-box h3{font-size:16px;font-weight:700;margin-bottom:12px}
+.det-desc{font-size:14px;line-height:1.7;color:var(--t2)}
+.tech-table{width:100%;font-size:13px}
+.tech-table td{padding:8px 0;border-bottom:1px solid var(--bd)}
+.tech-table td:first-child{font-weight:600;width:120px}
+.screenshot-scroll{display:flex;gap:12px;overflow-x:auto;padding-bottom:12px}
+.screenshot-scroll img{height:200px;border-radius:12px;object-fit:cover;cursor:pointer}
+.ad-container{background:var(--w);border-radius:16px;padding:16px;margin:16px 0;border:1px solid var(--bd);text-align:center;min-height:100px}
+.qr-container{text-align:center;padding:16px;margin:16px 0;background:var(--w);border-radius:16px;border:1px solid var(--bd)}
+.qr-container img{border-radius:8px}
+.modal-bg{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.6);z-index:300;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.modal-bg.open{display:flex}
+.modal{background:var(--w);width:90%;max-width:420px;border-radius:20px;padding:32px;animation:slideUp .3s ease;position:relative;overflow:hidden}
+.modal::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--g),#00d2ff)}
+.modal h2{margin-bottom:24px;font-size:22px;font-weight:700;text-align:center}
+.modal input{width:100%;padding:14px 16px;border:1px solid var(--bd);border-radius:12px;font-size:14px;margin-bottom:12px;outline:none;font-family:inherit;transition:.2s}
+.modal input:focus{border-color:var(--g);box-shadow:0 0 0 3px var(--gl)}
+.mbtn{width:100%;padding:14px;background:var(--g);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:8px;transition:.15s}
+.mbtn:hover{opacity:.9}
+.social-btn{width:100%;padding:14px;border:1px solid var(--bd);border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:8px;background:var(--w);color:var(--t1);transition:.15s}
+.social-btn:hover{background:var(--bg)}
+.social-btn img{width:20px;height:20px}
+.divider{display:flex;align-items:center;gap:12px;margin:16px 0;color:var(--t3);font-size:12px}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--bd)}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:#323232;color:#fff;padding:12px 24px;border-radius:12px;font-size:13px;z-index:99999;opacity:0;transition:.3s;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.site-footer{background:var(--w);border-top:1px solid var(--bd);padding:24px 16px;margin-top:auto}
+.footer-links{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-bottom:12px}
+.footer-links a{color:var(--t2);text-decoration:none;font-size:13px}
+.footer-links a:hover{color:var(--g)}
+.social-icons{display:flex;gap:16px;justify-content:center;margin-bottom:12px}
+.social-icons a{color:var(--t2);text-decoration:none;font-size:20px}
+.social-icons a:hover{color:var(--g)}
+.footer-copy{text-align:center;font-size:12px;color:var(--t3)}
+.cookie-banner{position:fixed;bottom:0;left:0;right:0;background:var(--w);padding:16px;box-shadow:0 -2px 10px rgba(0,0,0,.1);z-index:9999;display:none;align-items:center;justify-content:space-between;gap:12px;border-radius:16px 16px 0 0}
+.cookie-banner p{font-size:13px;color:var(--t2);flex:1}
+.cookie-accept{background:var(--g);color:#fff;border:none;border-radius:8px;padding:10px 20px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;flex-shrink:0}
+@keyframes slideUp{from{transform:translateY(50px);opacity:0}to{transform:translateY(0);opacity:1}}
+@media(max-width:768px){.search-box{display:none}.user-chip span{display:none}}
+</style>
+</head>
+<body>
+<div class="maintenance-overlay" id="maintMode"><span class="material-icons-round" style="font-size:64px;color:var(--g)">construction</span><h1 style="margin-top:16px">Under Maintenance</h1></div>
+<div class="announcement-bar" id="announcementBar"></div>
+<div class="navbar">
+<div style="cursor:pointer" onclick="toggleSidebar()"><span class="material-icons-round">menu</span></div>
+<div class="logo-btn" onclick="window.location='/'"><div id="logoImg" style="width:36px;height:36px;border-radius:50%;overflow:hidden;background:linear-gradient(135deg,#00d2ff,#3a7bd5);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:14px;flex-shrink:0">VH</div><span class="logo-txt" id="logoTxt">VELORA HUB</span></div>
+<div class="search-box" onclick="openSearch()"><span class="material-icons-round" style="color:var(--t3)">search</span><input placeholder="Search apps..." readonly></div>
+<div class="nav-right"><div class="nav-btn" id="wishNav" onclick="handleWishClick()" title="Wishlist"><span class="material-icons-round">favorite_border</span></div><div id="userNavArea"></div></div>
+</div>
+<div class="sidebar-bg" id="sbBg" onclick="toggleSidebar()"></div>
+<div class="sidebar" id="sb">
+<div class="sb-hdr"><div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#00d2ff,#3a7bd5);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:10px;flex-shrink:0">VH</div>VELORA HUB</div>
+<div class="sb-label">Platforms</div>
+<div class="sb-item on" onclick="setPlatform('All',this)"><span class="material-icons-round">apps</span> All</div>
+<div class="sb-item" onclick="setPlatform('Android',this)"><span class="material-icons-round">android</span> Android</div>
+<div class="sb-item" onclick="setPlatform('Windows',this)"><span class="material-icons-round">laptop</span> Windows</div>
+<div class="sb-label">Categories</div>
+<div id="sidebarCategories"></div>
+<div class="sb-label">Account</div>
+<div class="sb-item" id="sbLoginBtn" onclick="openAuth()"><span class="material-icons-round">person</span> Login / Sign Up</div>
+<div class="sb-item" id="sbWishBtn" onclick="showWishlist()"><span class="material-icons-round">favorite</span> My Wishlist</div>
+<div class="sb-item" onclick="subscribeUpdates()"><span class="material-icons-round">notifications_active</span> Subscribe</div>
+<div class="sb-item" id="sbLogoutBtn" onclick="logout()" style="display:none"><span class="material-icons-round">logout</span> Logout</div>
+<div class="sb-footer"><a href="/admin" style="color:var(--g);text-decoration:none;font-size:13px;display:flex;align-items:center;gap:6px"><span class="material-icons-round" style="font-size:18px">admin_panel_settings</span> Admin Panel</a></div>
+</div>
+<div class="main" id="mainContent"></div>
+<footer class="site-footer" id="siteFooter"></footer>
+<div class="cookie-banner" id="cookieBanner"><p id="cookieText">We use cookies.</p><button class="cookie-accept" onclick="acceptCookies()">Accept</button></div>
+<div class="detail" id="detPage"></div>
+<div class="modal-bg" id="searchOvr" onclick="closeSearch()"><div class="modal" onclick="event.stopPropagation()"><h2>Search</h2><input type="text" id="searchInp" placeholder="Search apps..." oninput="doSearch(this.value)"><div id="searchRes" style="margin-top:12px;max-height:50vh;overflow-y:auto"></div></div></div>
+<div class="modal-bg" id="authModal" onclick="closeAuthModal()"><div class="modal" onclick="event.stopPropagation()" id="authBody"></div></div>
+<div class="modal-bg" id="revModal" onclick="closeRevModal()"><div class="modal" onclick="event.stopPropagation()"><h2>Write a Review</h2><div style="display:flex;justify-content:center;gap:8px;margin:12px 0" id="revStars"></div><textarea id="revText" style="width:100%;min-height:80px;padding:12px;border:1px solid var(--bd);border-radius:12px;font-family:inherit;resize:vertical;outline:none" placeholder="Your experience..."></textarea><button class="mbtn" onclick="submitReview()">Submit</button></div></div>
+<div class="toast" id="toast"></div>
+<script>
+var apps=[],user=null,token=null,curPlatform='All',curDetId=null,revRating=0,settings={},wishlist=[];
+function showToast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(function(){t.classList.remove('show')},2500)}
+function fdl(n){if(!n)return'0';if(n>=1e9)return(n/1e9).toFixed(1)+'B';if(n>=1e6)return(n/1e6).toFixed(1)+'M';if(n>=1e3)return(n/1e3).toFixed(1)+'K';return n.toString()}
+function applySettings(s){settings=s;document.getElementById('logoTxt').textContent=s.storeName||'VELORA HUB';document.title=s.metaTitle||s.storeName;document.documentElement.style.setProperty('--g',s.primaryColor||'#3a7bd5');document.documentElement.style.setProperty('--gl',s.secondaryColor||'#e3f2fd');document.documentElement.style.setProperty('--bg',s.bgColor||'#f5f5f5');document.documentElement.style.setProperty('--t1',s.textColor||'#1f1f1f');document.querySelector('meta[name="theme-color"]').content=s.primaryColor||'#3a7bd5';if(s.darkMode){document.documentElement.style.setProperty('--bg','#121212');document.documentElement.style.setProperty('--w','#1e1e1e');document.documentElement.style.setProperty('--t1','#e1e1e1');document.documentElement.style.setProperty('--t2','#aaa');document.documentElement.style.setProperty('--t3','#888');document.documentElement.style.setProperty('--bd','#333')}if(s.logoUrl){document.getElementById('logoImg').innerHTML='<img src="'+s.logoUrl+'" style="width:100%;height:100%;object-fit:cover">'}if(s.maintenanceMode)document.getElementById('maintMode').style.display='flex';else document.getElementById('maintMode').style.display='none';var ab=document.getElementById('announcementBar');if(s.announcementText){ab.style.display='block';ab.style.background=s.announcementBgColor||'#3a7bd5';ab.style.color=s.announcementTextColor||'#fff';ab.textContent=s.announcementText;ab.onclick=function(){if(s.announcementLink)window.open(s.announcementLink)}}else ab.style.display='none';if(s.dynamicCategories){var cats=s.dynamicCategories.split(',');var icons=['sports_esports','build','forum','auto_awesome','school','music_note','photo_camera','work'];var h='';for(var i=0;i<cats.length;i++){h+='<div class="sb-item" onclick="setCat(\''+cats[i].trim()+'\')"><span class="material-icons-round">'+icons[i%icons.length]+'</span> '+cats[i].trim()+'</div>'}document.getElementById('sidebarCategories').innerHTML=h}if(s.customCSS)document.getElementById('dynamicCSS').innerHTML+=s.customCSS;if(s.disableRightClick)document.addEventListener('contextmenu',function(e){e.preventDefault()});if(s.cookieNoticeEnabled&&!localStorage.getItem('cookieAccepted')){document.getElementById('cookieBanner').style.display='flex';document.getElementById('cookieText').textContent=s.cookieNoticeText||'We use cookies.'}renderFooter(s);if(s.googleAnalyticsId&&!document.getElementById('gaScript')){var g=document.createElement('script');g.id='gaScript';g.async=true;g.src='https://www.googletagmanager.com/gtag/js?id='+s.googleAnalyticsId;document.head.appendChild(g);window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config',s.googleAnalyticsId)}if(s.adClientId&&!document.getElementById('adsenseScript')){var a=document.createElement('script');a.id='adsenseScript';a.async=true;a.crossOrigin='anonymous';a.src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client='+s.adClientId;document.head.appendChild(a)}}
+function renderAd(h){if(!settings.showBannerAds||!h)return'';return'<div class="ad-container">'+h+'</div>'}
+function acceptCookies(){localStorage.setItem('cookieAccepted','true');document.getElementById('cookieBanner').style.display='none'}
+function renderFooter(s){var lH='';if(s.footerLinks){var links=s.footerLinks.split(',');for(var i=0;i<links.length;i++){var p=links[i].trim().split(':');if(p.length===2)lH+='<a href="'+p[1]+'">'+p[0]+'</a>'}}var sH='';if(s.socialFacebook)sH+='<a href="'+s.socialFacebook+'"><span class="material-icons-round">facebook</span></a>';if(s.socialTelegram)sH+='<a href="'+s.socialTelegram+'"><span class="material-icons-round">send</span></a>';document.getElementById('siteFooter').innerHTML=(sH?'<div class="social-icons">'+sH+'</div>':'')+(lH?'<div class="footer-links">'+lH+'</div>':'')+'<div class="footer-copy">'+(s.copyrightText||'')+'</div>'}
+function loadAuth(){token=localStorage.getItem('token');if(token){fetch('/api/auth/me',{headers:{'Authorization':'Bearer '+token}}).then(function(r){return r.json()}).then(function(u){if(u.name){user=u;wishlist=u.wishlist||[];updateUserNav()}else{user=null;token=null;localStorage.removeItem('token')}}).catch(function(){user=null})}}
+function updateUserNav(){var area=document.getElementById('userNavArea');var sbLogin=document.getElementById('sbLoginBtn');var sbLogout=document.getElementById('sbLogoutBtn');if(user){area.innerHTML='<div class="user-chip" onclick="logout()"><div class="user-avatar">'+user.avatar+'</div><span>'+user.name+'</span></div>';sbLogin.style.display='none';sbLogout.style.display='flex'}else{area.innerHTML='<div class="nav-btn" onclick="openAuth()"><span class="material-icons-round">person</span></div>';sbLogin.style.display='flex';sbLogout.style.display='none'}}
+function logout(){user=null;token=null;wishlist=[];localStorage.removeItem('token');updateUserNav();showToast('Logged out')}
+function toggleSidebar(){document.getElementById('sb').classList.toggle('open');document.getElementById('sbBg').classList.toggle('open')}
+function setPlatform(p,el){curPlatform=p;document.querySelectorAll('.sb-item').forEach(function(i){i.classList.remove('on')});if(el)el.classList.add('on');toggleSidebar();fetchApps()}
+function setCat(c){toggleSidebar();openSearch();document.getElementById('searchInp').value=c;doSearch(c)}
+function handleWishClick(){if(!user)return openAuth();showWishlist()}
+function showWishlist(){if(!user)return openAuth();if(wishlist.length===0)return showToast('Wishlist is empty');var n=[];for(var i=0;i<wishlist.length;i++){var a=apps.find(function(x){return x.id===wishlist[i]});if(a)n.push(a.name)}showToast('Wishlist: '+n.join(', '))}
+function subscribeUpdates(){if('Notification' in window){Notification.requestPermission().then(function(p){if(p==='granted')showToast('Subscribed!');else showToast('Notifications blocked')})}else showToast('Not supported')}
+async function fetchApps(){var url='/api/apps?';if(curPlatform!=='All')url+='platform='+curPlatform+'&';try{var r=await fetch(url);apps=await r.json();renderMain()}catch(e){}}
+function dlApp(id){var app=apps.find(function(a){return a.id===id});if(!app)return;if(app.externalLink){window.open(app.externalLink,'_blank');showToast('Redirecting...');app.downloads++;return}if(app.apkFile){var a=document.createElement('a');a.href='/api/download/'+id;a.click();showToast('Downloading...');return}showToast('No download available')}
+async function toggleWish(id,e){e.stopPropagation();if(!user)return openAuth();try{var r=await fetch('/api/apps/'+id+'/wishlist',{method:'POST',headers:{'Authorization':'Bearer '+token}});var d=await r.json();if(d.success){wishlist=d.wishlist;showToast('Wishlist updated');renderMain()}}catch(e){showToast('Error')}}
+function renderMain(){var top=apps.slice().sort(function(a,b){return b.downloads-a.downloads}).slice(0,10);var h='';if(settings.bannerEnabled){h+='<div class="banner" onclick="window.location=\''+(settings.bannerLink||'#')+'\'"><h2>'+(settings.bannerTitle||'Welcome')+'</h2><p>'+(settings.bannerSubtitle||'')+'</p></div>'}h+=renderAd(settings.headerAdHtml||settings.customAdHtml);h+='<div class="section"><div class="sec-hdr"><div class="sec-t">Latest Apps</div></div><div class="app-grid">';for(var i=0;i<Math.min(apps.length,12);i++)h+=appCard(apps[i]);h+='</div></div>';h+=renderAd(settings.homepageAdHtml);if(top.length&&settings.showTopCharts){h+='<div class="section"><div class="sec-hdr"><div class="sec-t">Top Downloads</div></div><div class="hz-list">';for(var j=0;j<top.length;j++){var a=top[j];h+='<div class="hz-item" onclick="openDetail(\''+a.id+'\')"><div class="hz-ic">'+iconImg(a)+'</div><div style="flex:1;min-width:0"><div class="hz-nm">'+a.name+'</div><div class="hz-mt">'+a.rating+'★ · '+fdl(a.downloads)+'</div></div><button class="dl-btn-sm" onclick="event.stopPropagation();dlApp(\''+a.id+'\')">Get</button></div>'}h+='</div></div>'}document.getElementById('mainContent').innerHTML=h}
+function appCard(a){var w=wishlist.indexOf(a.id)>-1;return'<div class="app-card" onclick="openDetail(\''+a.id+'\')"><button class="wish-btn '+(w?'active':'')+'" onclick="toggleWish(\''+a.id+'\',event)"><span class="material-icons-round">'+(w?'favorite':'favorite_border')+'</span></button><div class="card-img"><img src="'+(a.icon||'https://picsum.photos/seed/'+a.id+'/400/280')+'" loading="lazy"></div><div class="card-body"><div class="card-title">'+a.name+'</div><div class="card-desc">'+(a.shortDesc||a.category)+'</div></div><div class="card-foot"><div class="card-meta"><span class="material-icons-round" style="font-size:14px">star</span>'+a.rating+'</div><button class="dl-btn-sm" onclick="event.stopPropagation();dlApp(\''+a.id+'\')">Get</button></div></div>'}
+function iconImg(a,s){if(a.icon)return'<img src="'+a.icon+'" style="width:100%;height:100%;object-fit:cover">';return'<div style="width:100%;height:100%;background:var(--gl);display:flex;align-items:center;justify-content:center;font-size:'+(s||20)+'px;font-weight:700;color:var(--g)">'+a.name.charAt(0)+'</div>'}
+async function openDetail(id){curDetId=id;var app=apps.find(function(a){return a.id===id});if(!app)return;try{var r=await fetch('/api/apps/'+id);var f=await r.json();Object.assign(app,f)}catch(e){}var isW=wishlist.indexOf(app.id)>-1;var hd=app.externalLink||app.apkFile;var bt=app.externalLink?(settings.detailExternalLinkText||'Download APK'):'Download APK ('+app.size+')';document.title=app.name+' - '+(settings.storeName||'VELORA HUB');var ssH='';if(app.screenshots&&app.screenshots.length>0){ssH='<div class="det-box"><h3>Screenshots</h3><div class="screenshot-scroll">';for(var s=0;s<app.screenshots.length;s++)ssH+='<img src="'+app.screenshots[s]+'" alt="Screenshot">';ssH+='</div></div>'}var wnH=app.whatsNew?'<div class="det-box"><h3>What\'s New</h3><div style="font-size:13px;line-height:1.6;color:var(--t2)">'+app.whatsNew+'</div></div>':'';var tgH='';if(app.tags&&app.tags.length){tgH='<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px"><div style="padding:4px 12px;background:var(--gl);color:var(--g);border-radius:16px;font-size:12px;font-weight:600">#1 in '+app.category+'</div>';for(var t=0;t<app.tags.length;t++)tgH+='<div style="padding:4px 12px;background:var(--gl);color:var(--g);border-radius:16px;font-size:12px;font-weight:600">'+app.tags[t]+'</div>';tgH+='</div>'}var revs=app.reviews||[];var rC=[0,0,0,0,0];for(var ri=0;ri<revs.length;ri++)rC[revs[ri].rating-1]++;var tR=revs.length||1;var bars='';for(var bn=5;bn>=1;bn--){var pct=(rC[bn-1]/tR*100)||0;bars+='<div style="display:flex;align-items:center;gap:6px;font-size:10px;color:var(--t3)"><span>'+bn+'</span><div style="flex:1;height:6px;background:var(--bd);border-radius:3px;overflow:hidden"><div style="width:'+pct+'%;height:100%;background:#fbbc04;border-radius:3px"></div></div></div>'}var rList='';var last5=revs.slice(-5).reverse();for(var rl=0;rl<last5.length;rl++){var rv=last5[rl];var stars='';for(var st=0;st<rv.rating;st++)stars+='★';for(var se=rv.rating;se<5;se++)stars+='☆';rList+='<div style="padding:8px 0;border-top:1px solid var(--bd)"><div style="display:flex;align-items:center;gap:8px"><div style="width:28px;height:28px;border-radius:50%;background:var(--gl);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--g)">'+rv.avatar+'</div><span style="font-size:13px;font-weight:500">'+rv.userName+'</span><span style="font-size:11px;color:var(--t3);margin-left:auto">'+new Date(rv.date).toLocaleDateString()+'</span></div><div style="font-size:12px;color:#fbbc04;margin:4px 0">'+stars+'</div><div style="font-size:13px;color:var(--t2)">'+(rv.text||'')+'</div></div>'}document.getElementById('detPage').innerHTML='<div class="det-hdr"><div class="det-back" onclick="closeDetail()"><span class="material-icons-round">arrow_back</span></div><div style="flex:1"></div><button class="wish-btn '+(isW?'active':'')+'" onclick="toggleWish(\''+app.id+'\',event)" style="position:static;box-shadow:none"><span class="material-icons-round">'+(isW?'favorite':'favorite_border')+'</span></button><div class="det-back" onclick="shareApp(\''+app.id+'\')"><span class="material-icons-round">share</span></div></div><div class="det-body"><div class="det-hero"><div class="det-icon">'+iconImg(app,36)+'</div><div><div class="det-t">'+app.name+'</div><div class="det-dv">'+app.developer+'</div><div class="det-meta"><span><span class="material-icons-round">star</span>'+app.rating+' ('+revs.length+')</span><span><span class="material-icons-round">download</span>'+fdl(app.downloads)+'</span></div></div></div>'+(hd?'<a href="javascript:void(0)" class="det-dl-btn" onclick="dlApp(\''+app.id+'\')">'+bt+'</a>':'<button class="det-dl-btn na">Not Available</button>')+'<div class="qr-container"><p style="font-size:12px;color:var(--t3);margin-bottom:8px">Scan to download</p><img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data='+encodeURIComponent(window.location.origin)+'" alt="QR"></div>'+renderAd(settings.detailTopAdHtml||settings.customAdHtml)+ssH+wnH+tgH+'<div class="det-box"><h3>About</h3><div class="det-desc">'+app.description+'</div></div>'+(settings.showTechInfo?'<div class="det-box"><h3>Technical Info</h3><table class="tech-table"><tr><td>Version</td><td>'+app.version+'</td></tr><tr><td>Size</td><td>'+app.size+'</td></tr><tr><td>Platform</td><td>'+(app.platform||'Android')+'</td></tr><tr><td>Developer</td><td>'+app.developer+'</td></tr></table></div>':'')+renderAd(settings.detailBottomAdHtml)+'<div class="det-box"><h3>Rate this app</h3><div style="display:flex;gap:8px;justify-content:center;margin:12px 0">'+[1,2,3,4,5].map(function(i){return'<span class="material-icons-round" style="font-size:36px;color:var(--bd);cursor:pointer" onclick="openRevModal('+i+')">star_border</span>'}).join('')+'</div></div><div class="det-box"><h3>Ratings &amp; Reviews</h3><div style="display:flex;align-items:center;gap:16px;margin-bottom:16px"><div style="font-size:42px;font-weight:300;text-align:center;min-width:70px">'+app.rating+'</div><div style="flex:1">'+bars+'</div></div>'+rList+'</div><div style="height:40px"></div></div>';document.getElementById('detPage').classList.add('open')}
+function closeDetail(){document.getElementById('detPage').classList.remove('open');document.title=settings.metaTitle||'VELORA HUB'}
+function shareApp(id){var app=apps.find(function(a){return a.id===id});if(navigator.share)navigator.share({title:app?app.name:'App',url:location.href});else{navigator.clipboard.writeText(location.href);showToast('Link copied!')}}
+function openSearch(){document.getElementById('searchOvr').classList.add('open');setTimeout(function(){document.getElementById('searchInp').focus()},100)}
+function closeSearch(){document.getElementById('searchOvr').classList.remove('open')}
+async function doSearch(q){var box=document.getElementById('searchRes');if(!q.trim()){box.innerHTML='';return}try{var r=await fetch('/api/apps?search='+encodeURIComponent(q));var res=await r.json();if(!res.length){box.innerHTML='<p style="color:var(--t3);text-align:center;padding:20px">No results</p>';return}var h='';for(var i=0;i<res.length;i++){var a=res[i];h+='<div class="hz-item" onclick="closeSearch();openDetail(\''+a.id+'\')" style="margin-bottom:4px"><div class="hz-ic">'+iconImg(a)+'</div><div style="flex:1"><div class="hz-nm">'+a.name+'</div><div class="hz-mt">'+a.category+' · '+a.rating+'★</div></div></div>'}box.innerHTML=h}catch(e){}}
+function openAuth(){if(user)return showToast('Logged in as '+user.name);document.getElementById('authBody').innerHTML='<div style="text-align:center;margin-bottom:20px"><div style="width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#00d2ff,#3a7bd5);margin:0 auto 12px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:24px">VH</div><h2>VELORA HUB</h2><p style="font-size:13px;color:var(--t2);margin-top:4px">Sign in to save wishlist &amp; reviews</p></div><button class="social-btn" onclick="showToast(\'Google Auth requires API keys\')"><img src="https://www.google.com/favicon.ico"> Continue with Google</button><button class="social-btn" onclick="showToast(\'Facebook Auth requires API keys\')"><img src="https://www.facebook.com/favicon.ico"> Continue with Facebook</button><div class="divider">OR</div><input id="aEm" type="email" placeholder="Email address"><input id="aPw" type="password" placeholder="Password"><button class="mbtn" onclick="doLogin()">Sign In</button><p style="text-align:center;margin-top:16px;font-size:13px;color:var(--t2)">New here? <span style="color:var(--g);cursor:pointer;font-weight:600" onclick="openReg()">Create Account</span></p>';document.getElementById('authModal').classList.add('open')}
+function openReg(){document.getElementById('authBody').innerHTML='<div style="text-align:center;margin-bottom:20px"><div style="width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#00d2ff,#3a7bd5);margin:0 auto 12px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:24px">VH</div><h2>Create Account</h2></div><input id="rNm" placeholder="Full Name"><input id="rEm" type="email" placeholder="Email"><input id="rPw" type="password" placeholder="Password"><button class="mbtn" onclick="doReg()">Create Account</button><p style="text-align:center;margin-top:16px;font-size:13px;color:var(--t2)">Have account? <span style="color:var(--g);cursor:pointer;font-weight:600" onclick="openAuth()">Sign In</span></p>'}
+function closeAuthModal(){document.getElementById('authModal').classList.remove('open')}
+async function doLogin(){var r=await fetch('/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:document.getElementById('aEm').value,password:document.getElementById('aPw').value})});var d=await r.json();if(d.error)return showToast(d.error);token=d.token;user=d.user;localStorage.setItem('token',token);loadAuth();closeAuthModal();showToast('Welcome!')}
+async function doReg(){var r=await fetch('/api/auth/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:document.getElementById('rNm').value,email:document.getElementById('rEm').value,password:document.getElementById('rPw').value})});var d=await r.json();if(d.error)return showToast(d.error);token=d.token;user=d.user;localStorage.setItem('token',token);loadAuth();closeAuthModal();showToast('Account created!')}
+function openRevModal(r){if(!user)return openAuth();revRating=r;document.getElementById('revStars').innerHTML=[1,2,3,4,5].map(function(i){return'<span class="material-icons-round" style="font-size:36px;color:'+(i<=r?'#fbbc04':'var(--bd)')+';cursor:pointer" onclick="setRevStar('+i+')">star</span>'}).join('');document.getElementById('revModal').classList.add('open')}
+function setRevStar(r){revRating=r;document.getElementById('revStars').innerHTML=[1,2,3,4,5].map(function(i){return'<span class="material-icons-round" style="font-size:36px;color:'+(i<=r?'#fbbc04':'var(--bd)')+';cursor:pointer" onclick="setRevStar('+i+')">star</span>'}).join('')}
+function closeRevModal(){document.getElementById('revModal').classList.remove('open')}
+async function submitReview(){if(!revRating)return showToast('Select a rating');var r=await fetch('/api/apps/'+curDetId+'/review',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},body:JSON.stringify({rating:revRating,text:document.getElementById('revText').value})});var d=await r.json();if(d.error)return showToast(d.error);showToast('Review submitted!');closeRevModal();fetchApps();openDetail(curDetId)}
+fetch('/api/settings').then(function(r){return r.json()}).then(function(s){applySettings(s);loadAuth();fetchApps()});
+if('serviceWorker'in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js')})}
+</script>
+</body>
+</html>
